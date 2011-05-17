@@ -1,0 +1,30 @@
+{% extends 'openmockup/base.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2>{% trans "List" %}</h2>{% endblock %}
+
+{% block content %}
+<br />
+<form id="openmockups_form" action="{% if trash %}{% url openmockup_unremove %}{% else %}{% url openmockup_remove %}{% endif %}" method="post">
+  {% csrf_token %}
+  <table width="100%">
+    <tr>
+      <th scope="col">{% trans "Mockup" %}</th>
+      <th scope="col">{% trans "Date" %}</th>
+      <td></td>
+    </tr>
+    {% for mockup in mockup_list %}
+    <tr{% if not mockup.is_read %}class="new"{% endif %}>
+      <td><a href="{{ mockup.get_absolute_url }}" title="{% trans "View Mockup" %}">{{ mockup }}</a></td>
+      <td>{{ mockup.created_at|timesince }} {% trans "ago.."%}</td>
+      <th scope="row"><input type="checkbox" value="{{ mockup.pk }}" name="mockup_pks" /></th>
+    </tr>
+    {% endfor %}
+  </table>
+  {% if trash %}
+    <input type="submit" value="Restore" />
+  {% else %}
+    <input type="submit" value="Remove" />
+  {% endif %}
+</form>
+{% endblock %}

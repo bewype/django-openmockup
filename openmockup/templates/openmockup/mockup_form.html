@@ -1,0 +1,18 @@
+{% extends 'openmockup/base.html' %}
+{% load i18n %}
+
+{% block content_title %}<h2>{% trans "Compose" %}</h2>{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "Compose Your Mockup" %}</legend>
+    {{ form.as_p }}
+  </fieldset>
+  {% if new %}
+    <input type="submit" value="{% trans "Create" %}" />
+  {% else %}
+    <input type="submit" value="{% trans "Update" %}" />
+  {% endif %}
+{% endblock %}
